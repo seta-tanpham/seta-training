@@ -196,3 +196,13 @@ Each team:
 
 ---
 
+## 🏔️ More Challenges
+
+- **POST /import-users endpoint accepts a .csv file containing**
+  - Each line results in a GraphQL mutation to create a user
+  - Use goroutines (with channel + worker pool) to do this concurrently
+  - Return summary (how many succeeded/failed)
+<img width="490" height="84" alt="image" src="https://github.com/user-attachments/assets/93df7d51-bc77-4381-900e-8a5f1a74046f" />
+
+---
+
