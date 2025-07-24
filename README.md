@@ -4,7 +4,7 @@ SETA golang/nodejs training
 
 ## 🎯 Objective
 
-Build a system to manage users and teams:
+Build a microservices-based system to manage users, teams, and digital assets—avoiding a monolithic design:
 
 - Users can have roles: **manager** or **member**.
 - Managers can create teams, add/remove members or other managers.
@@ -12,7 +12,7 @@ Build a system to manage users and teams:
 
 ---
 
-## ⚙ System Architecture
+## ⚙ Proposed Microservice Architecture
 
 - ✅ **GraphQL service**: For user management: create user, login, logout, fetch users, assign roles.
 - ✅ **REST API**: For team management & asset management (folders, notes, sharing).
@@ -21,7 +21,7 @@ Build a system to manage users and teams:
 
 ## 🧩 Functional Requirements
 
-### 🔹 User Management (GraphQL)
+### 🔹 Auth & User Management Service (GraphQL)
 
 - Create user:
   - `userId` (auto-generated)
@@ -38,7 +38,7 @@ Build a system to manage users and teams:
 
 ---
 
-### 🔹 Team Management (REST API)
+### 🔹 Team Management Service (REST)
 
 - Managers can:
   - Create teams
@@ -165,8 +165,8 @@ Each team:
 
 ## ✅ Development Requirements
 
-- Use JWT for authentication
-- Validate role before allowing team creation or manager addition
+- Use JWT for authentication => Validate and decode JWTs (verifies expiration, and claims — not just extract user ID)
+- Validate role before allowing team creation or manager addition (RBAC)
 - Handle errors: duplicate email, invalid role, unauthorized actions
 - Write models for User, Team, Folder, Note
 - Use Go Framework (Gin + GORM)
