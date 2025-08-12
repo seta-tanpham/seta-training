@@ -64,3 +64,24 @@ These exercises help integrate **Kafka** into the Team Management and Asset Shar
 - Use `confluent-kafka-go` or `segmentio/kafka-go` libraries for Go.
 - Ensure all events include `eventType`, `timestamp`, and identifiers.
 - Consider retry & error handling in Kafka consumers.
+
+## 🔴 Redis-Focused Exercises
+
+### 1. Real-Time Team Member Cache
+- **Key format**: `team:{teamId}:members` → list of `userId`.
+- Update Redis cache when `MEMBER_ADDED` / `MEMBER_REMOVED` events occur.
+- API reads from Redis, fallback to DB if cache miss.
+
+### 2. Asset Metadata Cache
+- **Key format**:
+  - `folder:{folderId}` → folder metadata JSON.
+  - `note:{noteId}` → note metadata JSON.
+- Update or invalidate cache on `asset.changes` events.
+- Use write-through strategy.
+
+### 3. Real-Time Access Control Lookup
+- **Key format**: `asset:{assetId}:acl` → `{userId: accessType}`.
+- Update on `FOLDER_SHARED` / `NOTE_SHARED` events.
+- Validate permissions from Redis before DB query.
+
+---
