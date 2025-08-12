@@ -4,7 +4,7 @@ SETA golang/nodejs training
 
 ## 🎯 Objective
 
-Build a system to manage users and teams:
+Build a microservices-based system to manage users, teams, and digital assets—avoiding a monolithic design:
 
 - Users can have roles: **manager** or **member**.
 - Managers can create teams, add/remove members or other managers.
@@ -12,7 +12,7 @@ Build a system to manage users and teams:
 
 ---
 
-## ⚙ System Architecture
+## ⚙ Proposed Microservice Architecture
 
 - ✅ **GraphQL service**: For user management: create user, login, logout, fetch users, assign roles.
 - ✅ **REST API**: For team management & asset management (folders, notes, sharing).
@@ -21,7 +21,7 @@ Build a system to manage users and teams:
 
 ## 🧩 Functional Requirements
 
-### 🔹 User Management (GraphQL)
+### 🔹 Auth & User Management Service (GraphQL)
 
 - Create user:
   - `userId` (auto-generated)
@@ -38,7 +38,7 @@ Build a system to manage users and teams:
 
 ---
 
-### 🔹 Team Management (REST API)
+### 🔹 Team Management Service (REST)
 
 - Managers can:
   - Create teams
@@ -165,11 +165,44 @@ Each team:
 
 ## ✅ Development Requirements
 
-- Use JWT for authentication
-- Validate role before allowing team creation or manager addition
-- Handle errors: duplicate email, invalid role, unauthorized actions
-- Write models for User, Team, Folder, Note
-- Use Go Framework (Gin + GORM)
+- **Authentication**
+  - Use JWT for authentication.
+  - Validate and decode tokens, including expiration checks and claims verification—not limited to extracting user ID.
+
+- **Authorization (RBAC)**
+  - Enforce role validation before permitting team creation or manager assignment.
+  - Restrict actions based on defined user roles.
+
+- **Error Handling**
+  - Handle duplicate email registration attempts.
+  - Validate roles and flag unauthorized operations.
+  - Return appropriate HTTP status codes and error messages.
+
+- **Data Modeling**
+  - Define models for the following entities:
+    - `User`
+    - `Team`
+    - `Folder`
+    - `Note`
+
+- **Technology Stack**
+  - Use the Go framework (Gin + GORM).
+  - Apply clean architecture and separation of concerns for maintainability.
+
+- **Logging and Monitoring**
+  - Implement centralized logging.
+  - Suggested stack: Loki + Grafana + Promtail (alternatives acceptable if justified).
+  - Ensure visibility into API performance and system 
+
+---
+
+## 🏔️ More Challenges
+
+- **POST /import-users endpoint accepts a .csv file containing**
+  - Each line results in a GraphQL mutation to create a user
+  - Use goroutines (with channel + worker pool) to do this concurrently
+  - Return summary (how many succeeded/failed)
+<img width="490" height="84" alt="image" src="https://github.com/user-attachments/assets/93df7d51-bc77-4381-900e-8a5f1a74046f" />
 
 ---
 
